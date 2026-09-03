@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#0b0c08">
+<title>WarFit</title>
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/icon-180.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Barlow+Condensed:wght@400;500;600&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<div id="app">
+
+  <!-- ===== TOP STATUS BAR ===== -->
+  <header class="hud-bar">
+    <div class="hud-bar__brand">
+      <img src="icons/icon-192.png" class="hud-bar__crest" alt="">
+      <span class="hud-bar__name">WARFIT</span>
+    </div>
+    <div class="hud-bar__rank" id="hudRank">RECRUIT</div>
+  </header>
+
+  <!-- ===== SCREEN: DASHBOARD ===== -->
+  <main class="screen" id="screen-dashboard" data-screen="dashboard">
+    <section class="hero">
+      <div class="hero__stripes" aria-hidden="true"></div>
+      <p class="hero__eyebrow">CURRENT OPERATION</p>
+      <h1 class="hero__tier" id="dashCurrentTier">TIER 0 — COUCH TO COMBAT</h1>
+      <p class="hero__quote">"If you're not raining, you're not training."</p>
+      <div class="hero__progress">
+        <div class="hero__progress-bar"><div class="hero__progress-fill" id="dashProgressFill" style="width:14%"></div></div>
+        <span class="hero__progress-label" id="dashProgressLabel">14% to next tier</span>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="panel__head">
+        <h2>TODAY'S ORDERS</h2>
+      </div>
+      <ul class="order-list" id="dashOrders">
+        <li class="order-list__item">
+          <span class="order-list__tag">CARDIO</span>
+          <span class="order-list__text">Run — build toward mile &amp; a half</span>
+          <input type="checkbox" class="order-list__check">
+        </li>
+        <li class="order-list__item">
+          <span class="order-list__tag">CALISTHENICS</span>
+          <span class="order-list__text">Press-up / sit-up ladder, 4 sets</span>
+          <input type="checkbox" class="order-list__check">
+        </li>
+        <li class="order-list__item">
+          <span class="order-list__tag">FUEL</span>
+          <span class="order-list__text">Log today's meals — hit your macros</span>
+          <input type="checkbox" class="order-list__check">
+        </li>
+      </ul>
+    </section>
+
+    <section class="panel panel--split">
+      <div class="stat-block">
+        <span class="stat-block__value" id="dashStreak">0</span>
+        <span class="stat-block__label">DAY STREAK</span>
+      </div>
+      <div class="stat-block">
+        <span class="stat-block__value" id="dashPBCount">0</span>
+        <span class="stat-block__label">PBs LOGGED</span>
+      </div>
+      <div class="stat-block">
+        <span class="stat-block__value" id="dashSessions">0</span>
+        <span class="stat-block__label">SESSIONS DONE</span>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="panel__head">
+        <h2>END STATE — THE STANDARD</h2>
+      </div>
+      <p class="panel__note">Beyond infantry fitness. Beyond fight-sport conditioning. This is the ceiling you're climbing toward — logged from a standard actually reached, on benefits, no excuses.</p>
+      <a class="link-arrow" data-nav="levels">See the full ladder</a>
+    </section>
+  </main>
+
+  <!-- ===== SCREEN: ASSESSMENT ===== -->
+  <main class="screen is-hidden" id="screen-assessment" data-screen="assessment">
+    <section class="section-head">
+      <p class="section-head__eyebrow">SIT-REP</p>
+      <h1 class="section-head__title">Where are you starting?</h1>
+      <p class="section-head__sub">Be honest. There's no rank for lying about your fitness. This sets your Tier 0.</p>
+    </section>
+
+    <section class="panel">
+      <h2 class="panel__label">Choose your starting point</h2>
+      <div class="choice-grid" id="assessStartPoints">
+        <button class="choice-card" data-start="couch">
+          <span class="choice-card__title">Couch Potato</span>
+          <span class="choice-card__desc">Little to no regular exercise</span>
+        </button>
+        <button class="choice-card" data-start="desk">
+          <span class="choice-card__title">Desk Jockey</span>
+          <span class="choice-card__desc">Sedentary job, occasional walks</span>
+        </button>
+        <button class="choice-card" data-start="active">
+          <span class="choice-card__title">Weekend Active</span>
+          <span class="choice-card__desc">Casual sport or gym, inconsistent</span>
+        </button>
+        <button class="choice-card" data-start="trained">
+          <span class="choice-card__title">Already Training</span>
+          <span class="choice-card__desc">Regular structured training</span>
+        </button>
+      </div>
+    </section>
+
+    <section class="panel">
+      <h2 class="panel__label">Baseline test (log what you've got today)</h2>
+      <div class="test-grid" id="assessTests">
+        <label class="test-field"><span>1.5 mile run (mm:ss)</span><input type="text" placeholder="e.g. 14:30"></label>
+        <label class="test-field"><span>Press-ups in 2 min</span><input type="number" placeholder="0"></label>
+        <label class="test-field"><span>Sit-ups in 2 min</span><input type="number" placeholder="0"></label>
+        <label class="test-field"><span>Pull-ups in 1 min</span><input type="number" placeholder="0"></label>
+        <label class="test-field"><span>20kg pack, 8 miles (h:mm)</span><input type="text" placeholder="optional"></label>
+      </div>
+    </section>
+
+    <section class="panel">
+      <h2 class="panel__label">Choose your end goal</h2>
+      <div class="choice-grid" id="assessEndGoals">
+        <button class="choice-card" data-goal="entry">
+          <span class="choice-card__title">Entry Standard</span>
+          <span class="choice-card__desc">10min mile &amp; a half, 44/44, 10 pull-ups</span>
+        </button>
+        <button class="choice-card" data-goal="fightfit">
+          <span class="choice-card__title">Fight-Sport Ready</span>
+          <span class="choice-card__desc">3 full-contact rounds, any discipline</span>
+        </button>
+        <button class="choice-card" data-goal="ruck">
+          <span class="choice-card__title">Rucking Endurance</span>
+          <span class="choice-card__desc">20kg, 15 miles under 2:15</span>
+        </button>
+        <button class="choice-card choice-card--gold" data-goal="thestandard">
+          <span class="choice-card__title">THE STANDARD</span>
+          <span class="choice-card__desc">5:45 mile &amp; a half · 300 club · 10x5min rounds · summits</span>
+        </button>
+      </div>
+    </section>
+
+    <button class="btn-primary" id="assessConfirm">LOCK IN &amp; DEPLOY</button>
+  </main>
+
+  <!-- ===== SCREEN: LEVELS / PROGRESSION ===== -->
+  <main class="screen is-hidden" id="screen-levels" data-screen="levels">
+    <section class="section-head">
+      <p class="section-head__eyebrow">CAMPAIGN MAP</p>
+      <h1 class="section-head__title">The Ladder</h1>
+      <p class="section-head__sub">Years, not weeks. Every tier earned, nothing skipped.</p>
+    </section>
+
+    <ol class="tier-list" id="tierList">
+      <!-- populated by app.js -->
+    </ol>
+  </main>
+
+  <!-- ===== SCREEN: WORKOUTS ===== -->
+  <main class="screen is-hidden" id="screen-workouts" data-screen="workouts">
+    <section class="section-head">
+      <p class="section-head__eyebrow">TRAINING</p>
+      <h1 class="section-head__title">Workout Library</h1>
+      <p class="section-head__sub">Calisthenics, cardio, max lifts, combat sports, CrossFit.</p>
+    </section>
+
+    <div class="chip-row" id="workoutFilters">
+      <button class="chip is-active" data-filter="all">All</button>
+      <button class="chip" data-filter="calisthenics">Calisthenics</button>
+      <button class="chip" data-filter="cardio">Cardio</button>
+      <button class="chip" data-filter="lifts">Max Lifts</button>
+      <button class="chip" data-filter="combat">Combat</button>
+      <button class="chip" data-filter="crossfit">CrossFit</button>
+      <button class="chip" data-filter="ruck">Rucking</button>
+    </div>
+
+    <div class="workout-grid" id="workoutGrid">
+      <!-- populated by app.js -->
+    </div>
+  </main>
+
+  <!-- ===== SCREEN: PERSONAL BESTS ===== -->
+  <main class="screen is-hidden" id="screen-pbs" data-screen="pbs">
+    <section class="section-head">
+      <p class="section-head__eyebrow">RECORDS</p>
+      <h1 class="section-head__title">Personal Bests</h1>
+      <p class="section-head__sub">Log it, beat it, log it again.</p>
+    </section>
+
+    <button class="btn-primary btn-primary--outline" id="pbAddBtn">+ LOG A NEW PB</button>
+
+    <div class="pb-add is-hidden" id="pbAddForm">
+      <input type="text" id="pbName" placeholder="Lift / event name (e.g. Deadlift, 5-mile run)">
+      <div class="pb-add__row">
+        <input type="text" id="pbValue" placeholder="Result (e.g. 140kg, 22:10)">
+        <input type="date" id="pbDate">
+      </div>
+      <button class="btn-primary" id="pbSaveBtn">SAVE PB</button>
+    </div>
+
+    <div class="pb-groups" id="pbGroups">
+      <!-- populated by app.js -->
+    </div>
+  </main>
+
+  <!-- ===== SCREEN: DIET ===== -->
+  <main class="screen is-hidden" id="screen-diet" data-screen="diet">
+    <section class="section-head">
+      <p class="section-head__eyebrow">FUEL &amp; LOGISTICS</p>
+      <h1 class="section-head__title">Diet Plan</h1>
+      <p class="section-head__sub">Eat well, and lots of it. Fuel the standard, not a diet trend.</p>
+    </section>
+
+    <section class="panel panel--split">
+      <div class="stat-block">
+        <span class="stat-block__value" id="dietCalTarget">2800</span>
+        <span class="stat-block__label">KCAL TARGET</span>
+      </div>
+      <div class="stat-block">
+        <span class="stat-block__value" id="dietProteinTarget">180g</span>
+        <span class="stat-block__label">PROTEIN</span>
+      </div>
+      <div class="stat-block">
+        <span class="stat-block__value" id="dietGoalPhase">BUILD</span>
+        <span class="stat-block__label">PHASE</span>
+      </div>
+    </section>
+
+    <section class="panel">
+      <h2 class="panel__label">Today's meals</h2>
+      <div class="meal-list" id="dietMealList">
+        <!-- populated by app.js -->
+      </div>
+      <button class="link-arrow" id="dietAddMeal">+ Add meal</button>
+    </section>
+
+    <section class="panel">
+      <h2 class="panel__label">Phase guide</h2>
+      <div class="phase-cards" id="dietPhaseCards">
+        <!-- populated by app.js -->
+      </div>
+    </section>
+  </main>
+
+  <!-- ===== SCREEN: PROFILE ===== -->
+  <main class="screen is-hidden" id="screen-profile" data-screen="profile">
+    <section class="section-head">
+      <p class="section-head__eyebrow">SERVICE RECORD</p>
+      <h1 class="section-head__title">Profile</h1>
+    </section>
+
+    <section class="panel profile-card">
+      <img src="icons/icon-192.png" class="profile-card__crest" alt="">
+      <div>
+        <div class="profile-card__rank" id="profileRank">RECRUIT</div>
+        <div class="profile-card__since" id="profileSince">Enlisted today</div>
+      </div>
+    </section>
+
+    <section class="panel">
+      <h2 class="panel__label">Start point vs. end goal</h2>
+      <div class="summary-row"><span>Start</span><span id="profileStart">Not set</span></div>
+      <div class="summary-row"><span>Goal</span><span id="profileGoal">Not set</span></div>
+    </section>
+
+    <section class="panel">
+      <h2 class="panel__label">The Standard — reference</h2>
+      <div class="summary-row"><span>1.5 mile</span><span>5:45</span></div>
+      <div class="summary-row"><span>Press-ups (2 min)</span><span>106</span></div>
+      <div class="summary-row"><span>Sit-ups (2 min)</span><span>200</span></div>
+      <div class="summary-row"><span>Pull-ups (1 min)</span><span>20</span></div>
+      <div class="summary-row"><span>Sparring</span><span>10 x 5min rounds</span></div>
+      <div class="summary-row"><span>Bag work</span><span>10 x 5min rounds</span></div>
+      <div class="summary-row"><span>20kg pack, 8 miles</span><span>1:12:36</span></div>
+      <div class="summary-row"><span>20kg pack, 15 miles</span><span>2:15:00</span></div>
+      <div class="summary-row"><span>300 Club</span><span>3x bodyweight, any lift</span></div>
+      <div class="summary-row"><span>Summits (25kg pack)</span><span>7 Sisters · Ben Nevis · Mt Mallory</span></div>
+    </section>
+
+    <section class="panel">
+      <h2 class="panel__label">Reset</h2>
+      <button class="btn-primary btn-primary--danger" id="profileReset">WIPE PROGRESS</button>
+    </section>
+  </main>
+
+  <!-- ===== BOTTOM NAV ===== -->
+  <nav class="tac-nav">
+    <button class="tac-nav__item is-active" data-nav="dashboard">
+      <span class="tac-nav__icon">▲</span><span>HQ</span>
+    </button>
+    <button class="tac-nav__item" data-nav="levels">
+      <span class="tac-nav__icon">◆</span><span>Ladder</span>
+    </button>
+    <button class="tac-nav__item" data-nav="workouts">
+      <span class="tac-nav__icon">✚</span><span>Train</span>
+    </button>
+    <button class="tac-nav__item" data-nav="pbs">
+      <span class="tac-nav__icon">★</span><span>PBs</span>
+    </button>
+    <button class="tac-nav__item" data-nav="diet">
+      <span class="tac-nav__icon">⬢</span><span>Fuel</span>
+    </button>
+    <button class="tac-nav__item" data-nav="profile">
+      <span class="tac-nav__icon">☰</span><span>Record</span>
+    </button>
+  </nav>
+
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
